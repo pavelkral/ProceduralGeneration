@@ -8,6 +8,99 @@ namespace ProceduralGeometry
 
      public static class MeshBuilder
      {
+	  static public Mesh CreateQuad(float width = 1, float height = 1)
+	  {
+
+	       Mesh mesh = new Mesh();
+
+	       Vector3[] vertices = new Vector3[4]
+	       {
+			new Vector3(-width/2, 0, -height/2),
+			new Vector3(-width/2, 0,height/2),
+			new Vector3(width/2,0, height/2),
+			new Vector3(width/2, 0, -height/2)
+	       };
+
+
+	       int[] tris = new int[6]
+	       {
+
+		  0, 1, 3,
+		  2, 3, 1
+	       };
+
+	       Vector3[] normals = new Vector3[4]
+	       {
+			-Vector3.forward,
+			-Vector3.forward,
+			-Vector3.forward,
+			-Vector3.forward
+	       };
+
+	       Vector2[] uv = new Vector2[4]
+	       {
+			new Vector2(-0.5f, -0.5f),
+			new Vector2(-0.5f, 0.5f),
+			new Vector2(0.5f, 0.5f),
+			new Vector2(0.5f, -0.5f)
+	       };
+	       mesh.vertices = vertices;
+	       mesh.triangles = tris;
+	       mesh.uv = uv;
+	       mesh.normals = normals;
+
+
+	       mesh.RecalculateNormals();
+
+	       return mesh;
+	  }
+	  static public Mesh CreateCircle(float radius, int segments = 21)
+	  {
+
+	       int numVerts = segments;
+	       Mesh mesh = new Mesh();
+	       Vector3[] verts = new Vector3[numVerts];
+	       Vector2[] uvs = new Vector2[numVerts];
+	       int[] tris = new int[(numVerts * 3)];
+
+	       verts[0] = Vector3.zero;
+	       uvs[0] = new Vector2(0.5f, 0.5f);
+
+	       float angle = 360.0f / (float)(numVerts - 1);
+
+	       for (int i = 1; i < numVerts; ++i)
+	       {
+		    verts[i] = Quaternion.AngleAxis(angle * (float)(i - 1), Vector3.up) * Vector3.back;
+
+		    float normedHorizontal = (verts[i].x + 1.0f) * 0.5f;
+		    float normedVertical = (verts[i].z + 1.0f) * 0.5f;
+		    uvs[i] = new Vector2(normedHorizontal, normedVertical);
+		    //uvs[i] = new Vector2(0.5f + (verts[i].x) / (2 * radius),0.5f + (verts[i].y) / (2 * radius));
+	       }
+
+	       for (int i = 0; i + 2 < numVerts; ++i)
+	       {
+		    int index = i * 3;
+		    tris[index + 0] = 0;
+		    tris[index + 1] = i + 1;
+		    tris[index + 2] = i + 2;
+	       }
+
+	       // The last triangle has to wrap around to the first vert so we do this last and outside the lop
+	       var lastTriangleIndex = tris.Length - 3;
+	       tris[lastTriangleIndex + 0] = 0;
+	       tris[lastTriangleIndex + 1] = numVerts - 1;
+	       tris[lastTriangleIndex + 2] = 1;
+
+	       mesh.vertices = verts;
+	       mesh.triangles = tris;
+	       mesh.uv = uvs;
+
+	       mesh.RecalculateNormals();
+
+	       return mesh;
+	  }
+	 
 
 	  public static Mesh CreateRing(float innerRadius, float outerRadius, int heightSegments, int radiusSegments, float startAngle = 0f, float endAngle = Mathf.PI * 2f)
 	  {
@@ -67,98 +160,7 @@ namespace ProceduralGeometry
 	       return mesh;
 	  }
 
-	  static public Mesh CreateCircle(float radius, int segments = 21)
-	  {
-
-	       int numVerts = segments;
-	       Mesh mesh = new Mesh();
-	       Vector3[] verts = new Vector3[numVerts];
-	       Vector2[] uvs = new Vector2[numVerts];
-	       int[] tris = new int[(numVerts * 3)];
-
-	       verts[0] = Vector3.zero;
-	       uvs[0] = new Vector2(0.5f, 0.5f);
-
-	       float angle = 360.0f / (float)(numVerts - 1);
-
-	       for (int i = 1; i < numVerts; ++i)
-	       {
-		    verts[i] = Quaternion.AngleAxis(angle * (float)(i - 1), Vector3.up) * Vector3.back;
-
-		    float normedHorizontal = (verts[i].x + 1.0f) * 0.5f;
-		    float normedVertical = (verts[i].z + 1.0f) * 0.5f;
-		    uvs[i] = new Vector2(normedHorizontal, normedVertical);
-		    //uvs[i] = new Vector2(0.5f + (verts[i].x) / (2 * radius),0.5f + (verts[i].y) / (2 * radius));
-	       }
-
-	       for (int i = 0; i + 2 < numVerts; ++i)
-	       {
-		    int index = i * 3;
-		    tris[index + 0] = 0;
-		    tris[index + 1] = i + 1;
-		    tris[index + 2] = i + 2;
-	       }
-
-	       // The last triangle has to wrap around to the first vert so we do this last and outside the lop
-	       var lastTriangleIndex = tris.Length - 3;
-	       tris[lastTriangleIndex + 0] = 0;
-	       tris[lastTriangleIndex + 1] = numVerts - 1;
-	       tris[lastTriangleIndex + 2] = 1;
-
-	       mesh.vertices = verts;
-	       mesh.triangles = tris;
-	       mesh.uv = uvs;
-
-	       mesh.RecalculateNormals();
-
-	       return mesh;
-	  }
-	  static public Mesh CreateQuad(float width = 1, float height = 1)
-	  {
-
-	       Mesh mesh = new Mesh();
-
-	       Vector3[] vertices = new Vector3[4]
-	       {
-			new Vector3(-width/2, 0, -height/2),
-			new Vector3(-width/2, 0,height/2),
-			new Vector3(width/2,0, height/2),
-			new Vector3(width/2, 0, -height/2)
-	       };
-
-
-	       int[] tris = new int[6]
-	       {
-
-		  0, 1, 3,
-		  2, 3, 1
-	       };
-
-	       Vector3[] normals = new Vector3[4]
-	       {
-			-Vector3.forward,
-			-Vector3.forward,
-			-Vector3.forward,
-			-Vector3.forward
-	       };
-
-	       Vector2[] uv = new Vector2[4]
-	       {
-			new Vector2(-0.5f, -0.5f),
-			new Vector2(-0.5f, 0.5f),
-			new Vector2(0.5f, 0.5f),
-			new Vector2(0.5f, -0.5f)
-	       };
-	       mesh.vertices = vertices;
-	       mesh.triangles = tris;
-	       mesh.uv = uv;
-	       mesh.normals = normals;
-
-
-	       mesh.RecalculateNormals();
-
-	       return mesh;
-	  }
+	  
 
      }
 }

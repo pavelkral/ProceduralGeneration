@@ -8,17 +8,13 @@ public class UTransformMove : MonoBehaviour
      public float moveSpeed = 10f;
      public float turnSpeed = 50f;
      public float jumpHeight = 5f;
-     public UFieldOfView fieldOfView = null;
+
      public ULineOfSight linofsight = null;
      public LayerMask ground;
 
      void Update()
      {
-	  if (fieldOfView)
-	  {
-	       fieldOfView.SetOrigin(transform.position);
-	       fieldOfView.SetAimDirection(transform.forward);
-	  }
+
 	  if (linofsight)
 	  {
 	         linofsight.SetOrigin(transform.position);

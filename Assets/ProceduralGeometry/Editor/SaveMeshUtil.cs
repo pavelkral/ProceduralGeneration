@@ -6,7 +6,7 @@ using System.Collections;
 namespace ProceduralGeometry
 {
 
-    public class SaveMeshWindow : EditorWindow {
+    public class SaveMeshUtil : EditorWindow {
 
         string folder = "Assets/ProceduralGeometry/Meshes/";
         string assetName = "GeneratedMesh";
@@ -14,12 +14,12 @@ namespace ProceduralGeometry
 
         [MenuItem("ProceduralGeometry/SaveMesh")]
         static void Save () {
-            SaveMeshWindow window = EditorWindow.GetWindow(typeof(SaveMeshWindow)) as SaveMeshWindow;
+            SaveMeshUtil window = EditorWindow.GetWindow(typeof(SaveMeshUtil)) as SaveMeshUtil;
             window.Show();
         }
 
         void OnGUI () {
-            GUILayout.Label("Save Mesh Window", EditorStyles.boldLabel);
+            GUILayout.Label("Save Mesh", EditorStyles.boldLabel);
 
             using (new GUILayout.HorizontalScope()) {
                 GUILayout.Label("File name");

@@ -64,6 +64,7 @@ public class ULineOfSight : MonoBehaviour
      {
 	  SetAimDirection(transform.TransformDirection(Vector3.forward));
 	  generateLineOfsight();
+	  // generateFov();
      }
      public void showFov()
      {
@@ -157,7 +158,6 @@ public class ULineOfSight : MonoBehaviour
      }
      private void generateLineOfsight()
      {
-
 	
 	  float innerRadius = 1f;
 	  float outerRadius = vievDistance;
@@ -184,14 +184,41 @@ public class ULineOfSight : MonoBehaviour
 	       {
 		    float segment = startAngle + 1f * i / segments * endAngle;
 
+		    Vector3 tmp = Vector3.zero + new Vector3(radius * Mathf.Cos(segment), 0f, radius * Mathf.Sin(segment));
+
+		    if (j==1)
+		    {
+			 if (!Physics.Raycast(origin, tmp, out RaycastHit raycastHit, vievDistance, layerMask))
+			 {
+			      // vertex = origin + GetVectorFromAngle(angle) * vievDistance;
+			      Vector3 vertex = transform.InverseTransformPoint(origin + new Vector3(radius * Mathf.Cos(segment), 0f, radius * Mathf.Sin(segment)));
+			      vertex.y = 0;
+			      vertices.Add(vertex);
+			      normals.Add(new Vector3(0f, 1f, 0f));
+			      uvs.Add(new Vector2((vertex.x / outerRadius + 1) / 2, (vertex.z / outerRadius + 1) / 2));
+			 }
+			 else
+			 {
+			      Vector3 vertex = transform.InverseTransformPoint(raycastHit.point);
+			      vertex.y = 0;
+			      vertices.Add(vertex);
+			      normals.Add(new Vector3(0f, 1f, 0f));
+			      uvs.Add(new Vector2((vertex.x / outerRadius + 1) / 2, (vertex.z / outerRadius + 1) / 2));
+			 }
+		    }
+		    else
+		    {
+			 Vector3 vertex = transform.InverseTransformPoint(origin + new Vector3(radius * Mathf.Cos(segment), 0f, radius * Mathf.Sin(segment)));
+			 vertex.y = 0;
+ 			 vertices.Add(vertex);
+			 normals.Add(new Vector3(0f, 1f, 0f));
+			 uvs.Add(new Vector2((vertex.x / outerRadius + 1) / 2, (vertex.z / outerRadius + 1) / 2));
+
+		    }
 		    //Vector3 vertex = new Vector3(radius * Mathf.Cos(segment),0f,radius * Mathf.Sin(segment));
-		    Vector3 vertex = transform.InverseTransformPoint(origin + new Vector3(radius * Mathf.Cos(segment), 0f, radius * Mathf.Sin(segment)));
-		    vertex.y = 0;
-		    vertices.Add(vertex);
+		   
 
-
-		    normals.Add(new Vector3(0f, 1f, 0f));
-		    uvs.Add(new Vector2((vertex.x / outerRadius + 1) / 2, (vertex.z / outerRadius + 1) / 2));
+		  
 	       }
 	       radius += heihtradiusstep;
 	  }
