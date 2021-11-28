@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NoiseTool : EditorWindow
 {
-     [MenuItem("Dev Tools/Noise Tools")]
+     [MenuItem("ProceduralTexture/Noise Tools")]
      static void AddWindow()
      {
           Rect wr = new Rect(0, 0, 400, 600);

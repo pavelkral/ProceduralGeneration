@@ -11,7 +11,7 @@ namespace GameSurgeon.HeightMapper
         private Terrain terrain;
         private Texture2D heightMap;
 
-        [MenuItem("Dev Tools/Height Mapper")]
+        [MenuItem("ProceduralTexture/Height Mapper")]
         public static void ShowWindow()
         {
             GetWindow(typeof(HeightMapper));
