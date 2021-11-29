@@ -337,7 +337,9 @@ public class ULineOfSight : MonoBehaviour
 	  Gizmos.color = Color.red;
 	  //  Gizmos.DrawRay(origin, (enemy.position - origin).normalized * vievDistance);
 	  Gizmos.color = Color.blue;
+
 	  Gizmos.DrawRay(origin, this.aimDirection * vievDistance);
+	//  Gizmos.DrawRay(transform.position, transform.forward * 2);
 
 
      }
