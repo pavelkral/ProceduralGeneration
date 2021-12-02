@@ -9,9 +9,9 @@ Shader "MCustomPass/FullScreen/OutlinePass"
 
      #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/RenderPass/CustomPass/CustomPassCommon.hlsl"
 
-               TEXTURE2D_X(_OutlineBuffer);
-          float4 _OutlineColor;
-          float _Threshold;
+     TEXTURE2D_X(_OutlineBuffer);
+     float4 _OutlineColor;
+     float _Threshold;
 
      #define v2 1.41421
      #define c45 0.707107
