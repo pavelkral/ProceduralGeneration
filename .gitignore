@@ -17,7 +17,8 @@
 # /[Aa]ssets/AssetStoreTools*
 
 
-/[Aa]ssets/DevAssets/
+/[Aa]ssets/Examples/LineOfSight/
+/[Aa]ssets/Shaders/
 
 /[Dd]az3D/
 

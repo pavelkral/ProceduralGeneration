@@ -33,12 +33,10 @@ namespace Orientation
 	       //
 	       // Debug.DrawRay(transform.position, direction, Color.green);
 	       // Debug.DrawRay(transform.position, transform.forward * 3, Color.blue);
-
 	       Vector3 forward = transform.TransformDirection(Vector3.forward);
 	       Vector3 toOther = player.transform.position - transform.position;
 	       Debug.DrawRay(transform.position, toOther * 3, Color.cyan);
 	       Debug.DrawRay(transform.position, forward * 3, Color.red);
-
 
 	       var dot = Vector3.Dot(forward, toOther);
 	       // Divide the dot by the product of the magnitudes of the vectors
@@ -54,16 +52,43 @@ namespace Orientation
 	       {
 		    // print("The other transform is behind me!");
 		    // m_TextComponent.text = "behind  " + Vector3.Dot(forward, toOther).ToString();
-		    m_TextComponent.text = "behind  " + angle;
+		    m_TextComponent.text = "back ";// + angle;
 		    // Debug.Log("The other transform is behind me!" + Vector3.Dot(forward, toOther));
 	       }
 	       else
 	       {
 		    // m_TextComponent.text = "in front  " + Vector3.Dot(forward.normalized, toOther.normalized).ToString() ;
-		    m_TextComponent.text = "in front  " + angle;
+		    m_TextComponent.text = "front  ";// + angle;
 	       }
 
+
+	       Vector3 youDir = transform.TransformDirection(Vector3.forward); ;
+
+	       //The direction from you to the waypoint
+	       Vector3 waypointDir = player.transform.position - transform.position;
+
+	       //The cross product between these vectors
+	       Vector3 crossProduct = Vector3.Cross(youDir, waypointDir);
+
+	       //The dot product between the your up vector and the cross product
+	       //This can be said to be a volume that can be negative
+	       float dotProduct = Vector3.Dot(crossProduct, transform.up);
+
+	       //Now we can decide if we should turn left or right
+	       if (dotProduct > 0f)
+	       {
+		   // Debug.Log("Turn right");
+		    m_TextComponent.text += " right  " + Mathf.RoundToInt(angle).ToString()+ "° " + waypointDir.magnitude + "m";
+	       }
+	       else
+	       {
+		    m_TextComponent.text += " left  "  +Mathf.RoundToInt(angle).ToString() + "° " + waypointDir.magnitude + "m"; ;
+	       }
+
+
 	       moveInCircle();
+
+
 	  }
 	  public void moveInCircle()
 	  {

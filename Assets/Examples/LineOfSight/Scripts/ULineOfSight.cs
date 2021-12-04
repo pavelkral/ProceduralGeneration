@@ -332,13 +332,13 @@ public class ULineOfSight : MonoBehaviour
 	  Vector3 fovLineLeft = Quaternion.AngleAxis(halfAngle, transform.up) * this.aimDirection * vievDistance;
 	  Vector3 fovLine2 = Quaternion.AngleAxis(-halfAngle, transform.up) * this.aimDirection * vievDistance;
 	  //  Debug.Log("start  " + GetAngleFromVectorFloat(fovLineLeft));
-	  Gizmos.DrawRay(origin, fovLineLeft);
-	  Gizmos.DrawRay(origin, fovLine2);
-	  Gizmos.color = Color.red;
+	  //Gizmos.DrawRay(origin, fovLineLeft);
+	  //Gizmos.DrawRay(origin, fovLine2);
+	  //Gizmos.color = Color.red;
 	  //  Gizmos.DrawRay(origin, (enemy.position - origin).normalized * vievDistance);
 	  Gizmos.color = Color.blue;
 
-	  Gizmos.DrawRay(origin, this.aimDirection * vievDistance);
+	 // Gizmos.DrawRay(origin, this.aimDirection * vievDistance);
 	//  Gizmos.DrawRay(transform.position, transform.forward * 2);
 
 
